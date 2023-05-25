@@ -8,6 +8,8 @@ description = "JsonPatch+"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
+    "jsonpatch",
+    "jsonpointer",
     "PyYAML",
 ]
 license = {file = "LICENSE"}
