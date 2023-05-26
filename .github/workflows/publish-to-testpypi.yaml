@@ -2,8 +2,8 @@ name: Publish to Test PyPI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch: {}
 
 jobs:
   build-and-publish:
@@ -34,6 +34,8 @@ jobs:
       - name: Setup Python
         id: setup-python
         uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Install Build
         id: install-build
         run: |
