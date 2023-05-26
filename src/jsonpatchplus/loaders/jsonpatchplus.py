@@ -2,7 +2,7 @@ import json
 
 import yaml
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from ..ctypes import (
     StringOrFilePath,
@@ -12,7 +12,7 @@ from ..ctypes import (
     JsonPatchDocumentLoader,
     JsonPatchPreprocessor,
 )
-from ..exceptions import JsonPatchInvalidError
+from ..exceptions import JsonDocumentMissing, JsonPatchInvalidError
 
 
 class Expansion:
@@ -37,8 +37,8 @@ class Loader:
         self,
         /,
         *,
-        doc: JsonDocument,
         preprocessors: List[JsonPatchPreprocessor],
+        doc: Optional[JsonDocument] = None,
         **kwargs,
     ) -> None:
         self.doc = doc
@@ -47,6 +47,9 @@ class Loader:
         self.expansions: List[Expansion] = []
 
     def __call__(self, s_or_fp: StringOrFilePath, /, **kwargs) -> JsonPatchDocument:
+        if not self.doc:
+            raise JsonDocumentMissing()
+
         self.expansions = []
 
         if not isinstance(s_or_fp, (bytes, str)):
