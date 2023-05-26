@@ -1,3 +1,4 @@
 jsonpatch
+jsonpath-ng
 jsonpointer
 PyYAML
