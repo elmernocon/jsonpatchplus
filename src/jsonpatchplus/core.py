@@ -33,7 +33,7 @@ def load(
 def patch(
     doc: JsonDocument,
     patches: JsonPatchDocument,
-    loader: Optional[JsonPatchDocumentLoader],
+    loader: Optional[JsonPatchDocumentLoader] = None,
     max_error_len: int = 256,
 ) -> JsonDocument:
     doc = copy.deepcopy(doc)
