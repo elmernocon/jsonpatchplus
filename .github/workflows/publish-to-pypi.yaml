@@ -1,0 +1,48 @@
+name: Publist to PyPI
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-and-publish:
+    name: Build package and Publish to PyPI
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        os:
+        - ubuntu-latest
+        python-version:
+        - 3.9
+    runs-on: ${{ matrix.os }}
+    environment:
+      name: pypi
+      url: https://pypi.org/p/jsonpatchplus
+    permissions:
+      id-token: write
+    steps:
+      # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@master
+      # This action provides the following functionality for GitHub Actions users:
+      # - Installing a version of Python or PyPy and (by default) adding it to the PATH
+      # - Optionally caching dependencies for pip, pipenv and poetry
+      # - Registering problem matchers for error output
+      - name: Setup Python
+        id: setup-python
+        uses: actions/setup-python@master
+      - name: Install Build
+        id: install-build
+        run: |
+          python -m pip install --upgrade build
+      - name: Run Build
+        id: run-build
+        run: |
+          python -m build --sdist --wheel
+      # This action allows you to upload your Python distribution packages in the dist/ directory to PyPI.
+      - name: Publish to PyPI
+        id: pypi-publish
+        uses: pypa/gh-action-pypi-publish@release/v1
