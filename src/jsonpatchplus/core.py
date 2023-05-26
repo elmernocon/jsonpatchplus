@@ -7,11 +7,13 @@ import jsonpatch
 import jsonpointer
 
 from .ctypes import (
+    StringOrFilePath,
     JsonDocument,
     JsonPatchDocument,
     JsonPatchDocumentLoader,
 )
 from .exceptions import JsonPatchInvalidError
+from .loaders.jsonpatch import Loader
 from .utils import (
     is_integer,
     jsonptr_resolve,
@@ -19,6 +21,13 @@ from .utils import (
 )
 
 
+def load(
+    s_or_fp: StringOrFilePath, /, *, loader: Optional[JsonPatchDocumentLoader] = None
+) -> Any:
+    if loader is None:
+        loader = Loader()
+    data = loader(s_or_fp)
+    return data
 
 
 def patch(
@@ -91,5 +100,6 @@ def patch(
 
 
 __all__ = [
+    "load",
     "patch",
 ]
