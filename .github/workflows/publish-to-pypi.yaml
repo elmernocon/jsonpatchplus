@@ -2,8 +2,8 @@ name: Publist to PyPI
 
 on:
   release:
-    types:
-      - published
+    types: [ published ]
+  workflow_dispatch: {}
 
 jobs:
   build-and-publish:
