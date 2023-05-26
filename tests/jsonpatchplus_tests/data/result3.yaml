@@ -1,0 +1,15 @@
+---
+parameters:
+  - name: body
+    in: body
+    schema:
+      $ref: '#/definitions/Pet'
+    required: true
+  - name: owner
+    in: path
+    type: string
+    required: false
+  - name: species
+    in: query
+    type: string
+    required: false

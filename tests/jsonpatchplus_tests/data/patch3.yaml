@@ -1,0 +1,7 @@
+---
+- op: test
+  jsonpath: "$.parameters[?(@.name=='owner')].required"
+  value: true
+- op: replace
+  jsonpath: "$.parameters[?(@.type=='string')].required"
+  value: false
